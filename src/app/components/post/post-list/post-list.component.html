@@ -1,0 +1,72 @@
+<ng-container *ngIf="loading$ | async; else notLoading">
+  <app-loading></app-loading>
+</ng-container>
+
+<ng-template #notLoading>
+  <ng-container *ngIf="hasError$ | async; else mainContent">
+    <div class="error-fullscreen">
+      <app-error></app-error>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #mainContent>
+  <div class="container">
+    <div class="column side"></div>
+
+    <div class="column content">
+      <div class="posts-header">
+        <h2>Posts</h2>
+        <button class="create-btn" (click)="openModal()">Crear post</button>
+      </div>
+      <br />
+
+      <ng-container *ngIf="posts$ | async as posts">
+        <div *ngIf="posts.length > 0; else sinPosts">
+          <div *ngFor="let post of posts">
+            <div class="item-post" (click)="openModal(post)">
+              <strong>{{ post.title }}</strong>
+              <br />
+              <small>{{ post.body }}</small>
+              <i
+                class="material-symbols-outlined"
+                (click)="confirmDelete(post); $event.stopPropagation()"
+              >
+                delete
+              </i>
+            </div>
+            <br />
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #sinPosts>
+        <p>No tiene posts.</p>
+      </ng-template>
+    </div>
+
+    <div class="column side"></div>
+  </div>
+</ng-template>
+
+<app-post-form
+  *ngIf="showModal"
+  [post]="selectedPost"
+  [userId]="userId"
+  (close)="showModal = false"
+  (saved)="onPostSaved($event)"
+></app-post-form>
+
+<div
+  *ngIf="showConfirmModal"
+  class="modal-backdrop"
+  (click)="cancelDelete()"
+></div>
+
+<div *ngIf="showConfirmModal" class="modal confirm-modal">
+  <p>¿Estás seguro de que deseas eliminar este post?</p>
+  <div class="modal-actions">
+    <button (click)="deleteConfirmed()">Eliminar</button>
+    <button (click)="cancelDelete()">Cancelar</button>
+  </div>
+</div>

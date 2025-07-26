@@ -1,0 +1,70 @@
+<ng-container *ngIf="loading$ | async; else notLoading">
+  <app-loading></app-loading>
+</ng-container>
+
+<ng-template #notLoading>
+  <ng-container *ngIf="hasError$ | async; else mainContent">
+    <app-error></app-error>
+  </ng-container>
+</ng-template>
+
+<ng-template #mainContent>
+  <div class="content">
+    <h2>Usuarios</h2>
+    <br />
+
+    <input
+      type="text"
+      placeholder="Buscar por ..."
+      (input)="onSearch($event)"
+      class="search-input"
+    />
+
+    <div class="table-responsive" *ngIf="paginatedUsers$ | async as users">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Dirección</th>
+            <th>Web</th>
+            <th>N° Teléfono</th>
+            <th>Empresa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users" (click)="openModal(user)">
+            <td>
+              <div>{{ user.name }}</div>
+              <small class="sub-item">{{ user.username }}</small>
+            </td>
+            <td>{{ user.email }}</td>
+            <td>
+              <div>{{ user.address.street }}</div>
+              <small class="sub-item">{{ user.address.city }}</small>
+            </td>
+            <td>{{ user.website }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.company.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-controls" *ngIf="totalPages$ | async as totalPages">
+      <button (click)="prevPage()" [disabled]="currentPage === 1" class="btn-page">
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+      <span>Pág {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn-page">
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </div>
+  </div>
+
+  <app-user-detail
+    *ngIf="selectedUser"
+    [user]="selectedUser"
+    (close)="closeModal()"
+  ></app-user-detail>
+</ng-template>

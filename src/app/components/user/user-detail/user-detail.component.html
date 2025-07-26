@@ -1,0 +1,46 @@
+<div class="modal-backdrop" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">✖</button>
+    <h2>Detalle del Usuario</h2>
+    <br />
+    <div class="user-grid">
+      <div class="user-item">
+        <strong>Nombre:</strong>
+        <p>{{ user.name }}</p>
+      </div>
+      <div class="user-item">
+        <strong>Usuario:</strong>
+        <p>{{ user.username }}</p>
+      </div>
+      <div class="user-item">
+        <strong>Email:</strong>
+        <p>{{ user.email }}</p>
+      </div>
+      <div class="user-item">
+        <strong>Teléfono:</strong>
+        <p>{{ user.phone }}</p>
+      </div>
+      <div class="user-item">
+        <strong>Web:</strong>
+        <p>{{ user.website }}</p>
+      </div>
+      <div class="user-item">
+        <strong>Empresa:</strong>
+        <p>{{ user.company.name }}</p>
+      </div>
+      <div class="user-item">
+        <strong>Dirección:</strong>
+        <p>{{ user.address.street }}</p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="view-all">
+      <button class="view-all-btn" (click)="goToPostsList()">
+        Ver todos los post
+        <span class="material-symbols-outlined"> chevron_right </span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,27 +1,27 @@
-# IbkTest
+# Angular Users & Posts App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.8.
+Aplicación desarrollada con **Angular 18** que permite gestionar una lista de usuarios y sus publicaciones (posts) consumiendo la API pública de [JSONPlaceholder](https://jsonplaceholder.typicode.com/). Implementa arquitectura modular con **Lazy Loading**, **componentes standalone**, manejo de estado, formularios reactivos y modales dinámicos.
 
-## Development server
+## 🚀 Características principales
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- ✔️ Visualización de lista de usuarios con paginación
+- ✔️ Visualización de publicaciones por usuario
+- ✔️ CRUD de publicaciones (crear, editar, eliminar)
+- ✔️ Lazy loading de rutas feature
+- ✔️ Componentes modales reutilizables para formularios y confirmaciones
+- ✔️ Uso de `ReactiveForms` para validaciones
+- ✔️ Estilos con CSS nativo, sin librerías externas
+- ✔️ Consumo de APIs REST públicas (`jsonplaceholder.typicode.com`)
 
-## Code scaffolding
+## OJO: El core del proyecto es el módulo Post, cada usuario tiene post relacionados bajo el userId, al usar una API pública como jsonplaceholder los datos no se modificarán, solo se simula la petición http que devuelve una respuesta, más no se modifican los datos en el servidor.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Pasos para ejecutar el proyecto
 
-## Build
+# Instalar dependencias
+npm install
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+# Servidor de desarrollo
+ng serve
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# Ejecutar pruebas unitarias
+ng test
