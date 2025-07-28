@@ -63,17 +63,17 @@ export class PostListComponent implements OnInit {
     this.showModal = true;
   }
 
-onPostSaved(data: { post: Post; message: string }) {
-  this.successMessage = '';
-  this.showModal = false;
+  onPostSaved(data: { post: Post; message: string }) {
+    this.successMessage = '';
+    this.showModal = false;
 
-  setTimeout(() => {
-    this.successMessage = data.message;
-    this.cdr.detectChanges();
-  }, 0);
+    setTimeout(() => {
+      this.successMessage = data.message;
+      this.cdr.detectChanges();
+    }, 0);
 
-  this.refreshPosts();
-}
+    this.refreshPosts();
+  }
 
   confirmDelete(post: Post) {
     this.postToDelete = post;
