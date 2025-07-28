@@ -27,7 +27,6 @@
   cursor: pointer;
   font-size: 20px;
   color: #888;
-
   transition: color 0.2s;
 }
 
@@ -46,7 +45,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  background-color: transparent;
+  background: none;
   border: none;
   cursor: pointer;
 }
@@ -67,10 +66,7 @@
 
 .modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(0, 0, 0, 0.4);
   z-index: 10;
 }
@@ -80,7 +76,7 @@
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: #fff;
   padding: 1.5rem;
   border-radius: 8px;
   z-index: 11;
@@ -93,7 +89,6 @@
 .modal-actions {
   margin-top: 1rem;
   display: flex;
-  align-items: center;
   justify-content: center;
   gap: 6px;
 }
@@ -101,13 +96,39 @@
 .modal-actions button {
   padding: 0.5rem 1rem;
   border: none;
-  background: #1976d2;
-  color: white;
   border-radius: 4px;
   cursor: pointer;
   width: 100px;
+  color: #fff;
+  background: #1976d2;
 }
 
 .modal-actions button:last-child {
   background: #aaa;
+}
+
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 250px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  z-index: 9999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  animation: fade-in 0.3s ease, fade-out 0.5s ease 2.5s forwards;
+  border-left: 4px solid;
+}
+
+.alert-success {
+  background: #e6ffed;
+  color: #2c662d;
+  border-color: #2c662d;
+}
+
+.alert-error {
+  background: #ffe6e6;
+  color: red;
+  border-color: red;
 }

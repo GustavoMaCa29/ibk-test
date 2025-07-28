@@ -74,12 +74,12 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  background-color: #ccc; /* color cuando está deshabilitado */
+  background-color: #ccc;
   transition: background-color 0.3s ease;
 }
 
 .actions button:not(:disabled) {
-  background-color: #1976d2; /* color cuando está habilitado */
+  background-color: #1976d2;
 }
 
 .actions button:disabled {

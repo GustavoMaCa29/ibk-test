@@ -70,3 +70,11 @@
     <button (click)="cancelDelete()">Cancelar</button>
   </div>
 </div>
+
+<div *ngIf="successMessage && !(loading$ | async)" class="alert alert-success">
+  {{ successMessage }}
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-error">
+  {{ errorMessage }}
+</div>

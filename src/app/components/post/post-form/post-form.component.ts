@@ -4,6 +4,7 @@ import {
   Input,
   Output,
   SimpleChanges,
+  OnInit,
 } from '@angular/core';
 import {
   FormGroup,
@@ -22,14 +23,16 @@ import { PostService } from '../../../services/post.service';
   templateUrl: './post-form.component.html',
   styleUrl: './post-form.component.scss',
 })
-export class PostFormComponent {
+export class PostFormComponent implements OnInit {
   @Input() post?: Post;
   @Input() userId!: number;
   @Output() close = new EventEmitter<void>();
-  @Output() saved = new EventEmitter<Post>();
+  @Output() saved = new EventEmitter<{ post: Post; message: string }>();
 
   postForm!: FormGroup;
   isEdit = false;
+
+  errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private postService: PostService) {}
 
@@ -59,16 +62,21 @@ export class PostFormComponent {
     };
 
     if (this.post) {
-      this.postService.updatePost(formValue).subscribe((updated) => {
-        this.saved.emit(updated); 
-        this.closeModal();
+      this.postService.updatePost(formValue).subscribe({
+        next: (updated) => this.emitAndClose(updated, '¡Post actualizado correctamente!'),
+        error: () => (this.errorMessage = 'Error al actualizar el post'),
       });
     } else {
-      this.postService.addPost(formValue).subscribe((created) => {
-        this.saved.emit(created);
-        this.closeModal();
+      this.postService.addPost(formValue).subscribe({
+        next: (created) => this.emitAndClose(created, '¡Post creado correctamente!'),
+        error: () => (this.errorMessage = 'Error al crear el post'),
       });
     }
+  }
+
+  private emitAndClose(post: Post, message: string) {
+    this.closeModal();
+    this.saved.emit({ post, message });
   }
 
   closeModal() {

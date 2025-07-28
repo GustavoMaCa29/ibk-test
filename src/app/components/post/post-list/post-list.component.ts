@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from '../../../models/post.model';
@@ -35,9 +35,13 @@ export class PostListComponent implements OnInit {
   showConfirmModal = false;
   postToDelete: Post | null = null;
 
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
-    private postService: PostService
+    private postService: PostService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +51,7 @@ export class PostListComponent implements OnInit {
 
     this.userId = Number(this.route.snapshot.paramMap.get('userId'));
     if (this.userId) {
-      this.postService.getPosts();
+      this.refreshPosts();
       this.posts$ = this.postService.posts$.pipe(
         map((posts) => posts.filter((post) => post.userId === this.userId))
       );
@@ -59,11 +63,17 @@ export class PostListComponent implements OnInit {
     this.showModal = true;
   }
 
-  onPostSaved(post: Post) {
-    console.log('Post guardado:', post);
-    this.postService.getPosts();
-    this.showModal = false;
-  }
+onPostSaved(data: { post: Post; message: string }) {
+  this.successMessage = '';
+  this.showModal = false;
+
+  setTimeout(() => {
+    this.successMessage = data.message;
+    this.cdr.detectChanges();
+  }, 0);
+
+  this.refreshPosts();
+}
 
   confirmDelete(post: Post) {
     this.postToDelete = post;
@@ -78,10 +88,24 @@ export class PostListComponent implements OnInit {
   deleteConfirmed() {
     if (!this.postToDelete) return;
 
-    this.postService.deletePost(this.postToDelete.id).subscribe(() => {
-      this.postService.getPosts();
-      this.postToDelete = null;
-      this.showConfirmModal = false;
+    this.postService.deletePost(this.postToDelete.id).subscribe({
+      next: () => {
+        this.successMessage = '¡Post eliminado correctamente!';
+        this.postToDelete = null;
+        this.showConfirmModal = false;
+        this.cdr.detectChanges();
+        this.refreshPosts();
+      },
+      error: () => {
+        this.errorMessage = 'Error al eliminar el post';
+        this.showConfirmModal = false;
+        this.postToDelete = null;
+        this.cdr.detectChanges();
+      },
     });
+  }
+
+  private refreshPosts() {
+    this.postService.getPosts();
   }
 }
