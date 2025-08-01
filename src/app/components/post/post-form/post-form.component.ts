@@ -63,13 +63,21 @@ export class PostFormComponent implements OnInit {
 
     if (this.post) {
       this.postService.updatePost(formValue).subscribe({
-        next: (updated) => this.emitAndClose(updated, '¡Post actualizado correctamente!'),
-        error: () => (this.errorMessage = 'Error al actualizar el post'),
+        next: (updated) =>
+          this.emitAndClose(updated, '¡Post actualizado correctamente!'),
+        error: () => {
+          this.errorMessage = 'Error al actualizar el post';
+          setTimeout(() => (this.errorMessage = null), 3000);
+        },
       });
     } else {
       this.postService.addPost(formValue).subscribe({
-        next: (created) => this.emitAndClose(created, '¡Post creado correctamente!'),
-        error: () => (this.errorMessage = 'Error al crear el post'),
+        next: (created) =>
+          this.emitAndClose(created, '¡Post creado correctamente!'),
+        error: () => {
+          this.errorMessage = 'Error al crear el post';
+          setTimeout(() => (this.errorMessage = null), 3000);
+        },
       });
     }
   }

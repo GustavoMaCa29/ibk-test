@@ -70,6 +70,11 @@ export class PostListComponent implements OnInit {
     setTimeout(() => {
       this.successMessage = data.message;
       this.cdr.detectChanges();
+
+      setTimeout(() => {
+        this.successMessage = null;
+        this.cdr.detectChanges();
+      }, 3000);
     }, 0);
 
     this.refreshPosts();
@@ -95,12 +100,22 @@ export class PostListComponent implements OnInit {
         this.showConfirmModal = false;
         this.cdr.detectChanges();
         this.refreshPosts();
+
+        setTimeout(() => {
+          this.successMessage = null;
+          this.cdr.detectChanges();
+        }, 3000);
       },
       error: () => {
         this.errorMessage = 'Error al eliminar el post';
         this.showConfirmModal = false;
         this.postToDelete = null;
         this.cdr.detectChanges();
+
+        setTimeout(() => {
+          this.errorMessage = null;
+          this.cdr.detectChanges();
+        }, 3000);
       },
     });
   }
